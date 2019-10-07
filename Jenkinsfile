@@ -9,7 +9,8 @@ pipeline {
         }
         stage('Build') { 
             steps {
-                echo" Building the application";
+                sh 'mvn -B -DskipTests clean package'
+                echo "Build is Sucessfull";
             }
         }
         stage('Unit-Test') { 
