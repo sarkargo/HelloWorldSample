@@ -1,22 +1,15 @@
 pipeline {
-    agent any 
-    stages {
-        stage('Git-Checkout') { 
-            steps {
-                echo"Checking out code from Git";
-                git credentialsId: 'admin', url: 'https://github.com/sarkargo/HelloWorldSample.git'
-            }
+    agent {
+        docker {
+            image 'maven:3-alpine' 
+            args '-v /root/.m2:/root/.m2' 
         }
+    }
+    stages {
         stage('Build') { 
             steps {
-                sh 'mvn -B -DskipTests clean package'
-                echo "Build is Sucessfull";
+                sh 'mvn -B -DskipTests clean package' 
             }
         }
-        stage('Unit-Test') { 
-            steps {
-                echo"Integration testing";
-            }
-        }
-     }
+    }
 }
